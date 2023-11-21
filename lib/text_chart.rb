@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "term_chart/version"
+require_relative "text_chart/version"
 
-module TermChart
+module TextChart
   class Error < StandardError; end
   # Your code goes here...
 end
