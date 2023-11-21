@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require_relative "lib/term_chart/version"
+require_relative "lib/text_chart/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "term_chart"
-  spec.version = TermChart::VERSION
+  spec.name = "text_chart"
+  spec.version = TextChart::VERSION
   spec.authors = ["Gustavo Ribeiro"]
   spec.email = ["grdev@tutanota.com"]
 
   spec.summary = "Generate text-based charts."
-  spec.homepage = "https://github.com/gustavothecoder/term_chart"
+  spec.homepage = "https://github.com/gustavothecoder/text_chart"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0"
 

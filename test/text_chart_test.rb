@@ -2,10 +2,10 @@
 
 require "test_helper"
 
-class TermChartTest < Test::Unit::TestCase
+class TextChartTest < Test::Unit::TestCase
   test "VERSION" do
     assert do
-      ::TermChart.const_defined?(:VERSION)
+      ::TextChart.const_defined?(:VERSION)
     end
   end
 
