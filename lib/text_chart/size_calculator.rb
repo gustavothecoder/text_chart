@@ -53,7 +53,7 @@ class TextChart::SizeCalculator
         result += x_axis_row
 
         reference_row = 1
-        number_of_references = [@data.size / 2, 1].max
+        number_of_references = calculate_number_of_references
         number_of_references.times { result += reference_row }
 
         reference_spacing = 2
@@ -80,7 +80,7 @@ class TextChart::SizeCalculator
 
   # @return [Integer]
   def calculate_number_of_references
-    @number_of_references ||= [(@data.size / 2).round, 1].max
+    @number_of_references ||= [(@data.size.to_f / 2.0).round, 1].max
   end
 
   # @return [Integer]
