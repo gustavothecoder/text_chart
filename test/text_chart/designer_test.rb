@@ -21,7 +21,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     no_sample_designer = TextChart.new("No sample", "Testing", []).designer
     small_sample_designer = TextChart.new("Small sample", "Testing", [*1..10]).designer
 
-    # TODO: create a method to return the printable chart
     no_sample_result = no_sample_designer.draw_axis.join
     small_sample_result = small_sample_designer.draw_axis.join
 
