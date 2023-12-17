@@ -9,7 +9,36 @@ class TextChartTest < Test::Unit::TestCase
     end
   end
 
-  test "something useful" do
-    assert_equal("expected", "actual")
+  test "#find_references" do
+    no_sample = TextChart.new("No sample", "Testing", [])
+    small_sample = TextChart.new("Small sample", "Testing", [*1..10])
+
+    no_sample_refs = no_sample.find_references
+    small_sample_refs = small_sample.find_references
+
+    assert_equal no_sample_refs, [0]
+    assert_equal small_sample_refs, [10, 8, 6, 4, 2]
   end
+
+  # test "text chart with integer values" do
+  #   small_sample = TextChart.new("Small sample", "Testing", [*1..5])
+  #   # medium_chart = TextChart.new("medium data", [*1..10], "testing")
+  #   # big_chart = TextChart.new("big data", [*1..20], "testing")
+
+  #   small_sample_result = small_sample.generate
+
+  #   assert_equal small_sample_result, <<~EXPECTED
+  #     Small sample
+  #     Goal: Testing
+
+  #     6 |
+  #       |                                           5
+  #       |                                 4         ###
+  #     3 |                       3         ###       ###
+  #       |             2         ###       ###       ###
+  #       |   1         ###       ###       ###       ###
+  #     0 |   ###       ###       ###       ###       ###
+  #       --------------------------------------------------
+  #   EXPECTED
+  # end
 end
