@@ -29,6 +29,9 @@ class TextChart::Designer
     @chart_canvas
   end
 
+  # TODO
+  # def draw_bars
+
   private
 
   def build_empty_chart
@@ -66,30 +69,22 @@ class TextChart::Designer
   end
 
   def draw_references
-    references = @text_chart.find_references
+    references = @text_chart.refs
     width = @size_calc.calculate_reference_width
     number_of_references = references.size
     ref_size = ref_start = ref_end = nil
     margin_size = 1
-    row_offset = 2
 
     number_of_references.times do |i|
-      if i.zero?
-        chart_row = i
-      else
-        chart_row = i + row_offset
-        row_offset += 2
-      end
-
       ref_size = references[i].digits.size
 
       if ref_size == (width - margin_size)
         ref_start = 0
         ref_end = ref_size - 1
-        @chart_canvas[chart_row][ref_start..ref_end] = references[i].to_s
+        @chart_canvas[i][ref_start..ref_end] = references[i].to_s
       else
         ref_start = ref_size
-        @chart_canvas[chart_row][ref_start] = references[i].to_s
+        @chart_canvas[i][ref_start] = references[i].to_s
       end
     end
   end

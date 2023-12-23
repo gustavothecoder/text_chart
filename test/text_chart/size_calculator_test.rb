@@ -34,20 +34,18 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
 
     # Example:
     # 10 |       1
-    #    |       2
-    #    |       3
-    #  8 |       4
-    #    |       5
-    #    |       6
-    #  6 |       7
-    #    |       8
-    #    |       9
-    #  4 |       10
-    #    |       11
-    #    |       12
-    #  2 |       13
-    #    ------- 14
-    assert_equal small_sample_result, 14
+    #  9 |       2
+    #  8 |       3
+    #  7 |       4
+    #  6 |       5
+    #  5 |       6
+    #  4 |       7
+    #  3 |       8
+    #  2 |       9
+    #  1 |       10
+    #  0 |       11
+    #    ------- 12
+    assert_equal small_sample_result, 12
   end
 
   test "#calculate_number_of_columns" do
@@ -112,30 +110,17 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
 
     # Example:
     # 10 |         y
-    #    |         y
-    #    |         y
+    #  9 |         y
     #  8 |         y
-    #    |         y
-    #    |         y
+    #  7 |         y
     #  6 |         y
-    #    |         y
-    #    |         y
+    #  5 |         y
     #  4 |         y
-    #    |         y
-    #    |         y
-    #  2 |         y = 13
+    #  3 |         y
+    #  2 |         y
+    #  1 |         y
+    #  0 |         y = 11
     #    ----------
-    assert_equal small_sample_result, 13
-  end
-
-  test "#calculate_reference_offset" do
-    no_sample = TextChart.new("", "", []).size_calculator
-    small_sample = TextChart.new("", "", [*1..10]).size_calculator
-
-    no_sample_result = no_sample.calculate_reference_offset
-    small_sample_result = small_sample.calculate_reference_offset
-
-    assert_equal no_sample_result, 0
-    assert_equal small_sample_result, 2
+    assert_equal small_sample_result, 11
   end
 end
