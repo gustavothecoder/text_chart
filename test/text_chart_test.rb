@@ -9,17 +9,6 @@ class TextChartTest < Test::Unit::TestCase
     end
   end
 
-  test "#find_references" do
-    no_sample = TextChart.new("No sample", "Testing", [])
-    small_sample = TextChart.new("Small sample", "Testing", [*1..10])
-
-    no_sample_refs = no_sample.find_references
-    small_sample_refs = small_sample.find_references
-
-    assert_equal no_sample_refs, [0]
-    assert_equal small_sample_refs, [10, 8, 6, 4, 2]
-  end
-
   test "#to_s" do
     no_sample = TextChart.new("No sample", "Testing", [])
     small_sample = TextChart.new("Small sample", "Testing", [*1..5])
@@ -39,12 +28,11 @@ class TextChartTest < Test::Unit::TestCase
       Goal: Testing
 
       5 |                                                 
-        |                                                 
-        |                                                 
+      4 |                                                 
       3 |                                                 
-        |                                                 
-        |                                                 
+      2 |                                                 
       1 |                                                 
+      0 |                                                 
         --------------------------------------------------
     EXPECTED
   end

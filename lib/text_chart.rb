@@ -8,13 +8,25 @@ require_relative "text_chart/designer"
 # Goal: 3km in 16m
 # AVG: 13m
 #
-# 20m |
-#     |   18m34s
-#     |   ###                           15m23s
-# 10m |   ###       10m09s              ###       10m33s
-#     |   ###       ###       9m33s     ###       ###
-#     |   ###       ###       ###       ###       ###
-#  0m |...###.......###.......###.......###.......###...
+# 18 |~~~###
+# 17 |   ###
+# 16 |   ###
+# 15 |~~~###~~~~~~~~~~~~~~~~~~~~~~~~~~~###
+# 14 |   ###                           ###
+# 13 |   ###                           ###
+# 12 |   ###                           ###
+# 11 |   ###                           ###
+# 10 |~~~###~~~~~~~###~~~~~~~~~~~~~~~~~###~~~~~~~###
+#  9 |~~~###~~~~~~~###~~~~~~~###       ###       ###
+#  8 |   ###       ###       ###       ###       ###
+#  7 |   ###       ###       ###       ###       ###
+#  6 |   ###       ###       ###       ###       ###
+#  5 |   ###       ###       ###       ###       ###
+#  4 |   ###       ###       ###       ###       ###
+#  3 |   ###       ###       ###       ###       ###
+#  2 |   ###       ###       ###       ###       ###
+#  1 |   ###       ###       ###       ###       ###
+#  0 |   ###       ###       ###       ###       ###
 #     --------------------------------------------------
 #
 # Requirements:
@@ -34,28 +46,24 @@ class TextChart
     @title = title
     @goal = goal
     @data = data.empty? ? [0] : data
-    @size_calculator = SizeCalculator.new(@data)
+    @refs = define_references
+    @size_calculator = SizeCalculator.new(self)
     @designer = Designer.new(self, @size_calculator)
   end
 
-  attr_reader :title, :goal, :size_calculator, :designer
-
-  # @return [Array<Integer>]
-  def find_references
-    number_of_refs = @size_calculator.calculate_number_of_references
-    ref_offset = @size_calculator.calculate_reference_offset
-
-    refs = [@data.max]
-    (number_of_refs - 1).times do
-      refs << refs.last - ref_offset
-    end
-
-    refs
-  end
+  attr_reader :title, :goal, :refs, :data, :size_calculator, :designer
 
   # @return [String]
   def to_s
     @designer.draw_axis
     @designer.draw_header.join
+  end
+
+  private
+
+  def define_references
+    r = @data.sort.reverse
+    r << 0 unless r.include?(0)
+    r
   end
 end
