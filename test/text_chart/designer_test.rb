@@ -47,38 +47,60 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     assert_equal small_sample_result, expected_small_sample
   end
 
-  # test "#draw_bars" do
-  #   no_sample_designer = TextChart.new("No sample", "Testing", []).designer
-  #   sorted_designer = TextChart.new("Sorted", "Testing", [*1..10]).designer
-  #   random_order_designer = TextChart.new(
-  #     "Random order", "Testing", [*1..10].shuffle(random: Random.new(1))
-  #   ).designer
+  test "#draw_bars" do
+    sorted_designer = TextChart.new("Sorted", "Testing", [*1..10]).designer
+    random_order_designer = TextChart.new(
+      "Random order", "Testing", [*1..10].shuffle(random: Random.new(1))
+    ).designer
+    with_zero_designer = TextChart.new(
+      "With zero", "Testing", [*0..5].shuffle(random: Random.new(1))
+    ).designer
 
-  #   no_sample_result = no_sample_designer.draw_bars.join
-  #   sorted_result = sorted_designer.draw_bars.join
-  #   random_order_result = random_order_designer.draw_bars.join
+    sorted_result = sorted_designer.draw_bars.join
+    random_order_result = random_order_designer.draw_bars.join
+    with_zero_result = with_zero_designer.draw_bars.join
 
-  #   expected_no_sample = <<~END
+    expected_sorted_result = <<~END
+      10 |                                                                                             ###   
+       9 |                                                                                   ###       ###   
+       8 |                                                                         ###       ###       ###   
+       7 |                                                               ###       ###       ###       ###   
+       6 |                                                     ###       ###       ###       ###       ###   
+       5 |                                           ###       ###       ###       ###       ###       ###   
+       4 |                                 ###       ###       ###       ###       ###       ###       ###   
+       3 |                       ###       ###       ###       ###       ###       ###       ###       ###   
+       2 |             ###       ###       ###       ###       ###       ###       ###       ###       ###   
+       1 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+       0 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+         ----------------------------------------------------------------------------------------------------
+    END
+    assert_equal sorted_result, expected_sorted_result
 
-  #   END
-  #   assert_equal no_sample_result, expected_no_sample
+    expected_random_order_result = <<~END
+      10 |             ###                                                                                   
+       9 |             ###                                                                   ###             
+       8 |             ###                                                         ###       ###             
+       7 |             ###       ###                                               ###       ###             
+       6 |             ###       ###                                               ###       ###       ###   
+       5 |             ###       ###       ###                                     ###       ###       ###   
+       4 |             ###       ###       ###                 ###                 ###       ###       ###   
+       3 |   ###       ###       ###       ###                 ###                 ###       ###       ###   
+       2 |   ###       ###       ###       ###                 ###       ###       ###       ###       ###   
+       1 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+       0 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+         ----------------------------------------------------------------------------------------------------
+    END
+    assert_equal random_order_result, expected_random_order_result
 
-  #   expected_small_sample = <<~END
-  #     10 |
-  #        |                                                                                             ###
-  #        |                                                                                   ###       ###
-  #        |                                                                         ###       ###       ###
-  #        |                                                               ###       ###       ###       ###
-  #        |                                                     ###       ###       ###       ###       ###
-  #      5 |                                           ###       ###       ###       ###       ###       ###
-  #        |                                 ###       ###       ###       ###       ###       ###       ###
-  #        |                       ###       ###       ###       ###       ###       ###       ###       ###
-  #        |             ###       ###       ###       ###       ###       ###       ###       ###       ###
-  #        |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###
-  #        |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###
-  #      0 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###
-  #        ----------------------------------------------------------------------------------------------------
-  #   END
-  #   assert_equal small_sample_result, expected_small_sample
-  # end
+    expected_with_zero_result = <<~END
+      5 |                                                     ###   
+      4 |                       ###                           ###   
+      3 |                       ###                 ###       ###   
+      2 |   ###                 ###                 ###       ###   
+      1 |   ###       ###       ###                 ###       ###   
+      0 |   ###       ###       ###       ###       ###       ###   
+        ------------------------------------------------------------
+    END
+    assert_equal with_zero_result, expected_with_zero_result
+  end
 end

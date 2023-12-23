@@ -29,8 +29,39 @@ class TextChart::Designer
     @chart_canvas
   end
 
-  # TODO
-  # def draw_bars
+  # @return [Array<String>]
+  def draw_bars
+    draw_axis # TODO: remove this
+    zero_line = @chart_canvas.size - 2
+    chart_line = 0
+    ref_width = @size_calc.calculate_reference_width
+    first_bar_margin = 4
+    middle_bar_margin = 8
+    bar_row = "###"
+    bar_width = 2
+    bar_height = bar_start = bar_end = 0
+
+    @text_chart.data.each do |d|
+      # + 1 to guarantee that the bar will always be rendered
+      bar_height = d + 1
+
+      bar_start = if bar_start == 0
+        ref_width + first_bar_margin
+      else
+        bar_end + middle_bar_margin
+      end
+
+      bar_end = bar_start + bar_width
+
+      chart_line = zero_line
+      bar_height.times do |t|
+        @chart_canvas[chart_line][bar_start..bar_end] = bar_row
+        chart_line -= 1
+      end
+    end
+
+    @chart_canvas
+  end
 
   private
 
