@@ -20,9 +20,11 @@ class TextChart::DesignerTest < Test::Unit::TestCase
   test "#draw_axis" do
     no_sample_designer = TextChart.new("No sample", "Testing", []).designer
     small_sample_designer = TextChart.new("Small sample", "Testing", [*1..10]).designer
+    with_gaps_designer = TextChart.new("With gaps", "Testing", [1, 5, 10]).designer
 
     no_sample_result = no_sample_designer.draw_axis.join
     small_sample_result = small_sample_designer.draw_axis.join
+    with_gaps_result = with_gaps_designer.draw_axis.join
 
     expected_no_sample = <<~END
       0 |         
@@ -45,6 +47,22 @@ class TextChart::DesignerTest < Test::Unit::TestCase
          ----------------------------------------------------------------------------------------------------
     END
     assert_equal small_sample_result, expected_small_sample
+
+    expected_with_gaps = <<~END
+      10 |                             
+       9 |                             
+       8 |                             
+       7 |                             
+       6 |                             
+       5 |                             
+       4 |                             
+       3 |                             
+       2 |                             
+       1 |                             
+       0 |                             
+         ------------------------------
+    END
+    assert_equal with_gaps_result, expected_with_gaps
   end
 
   test "#draw_bars" do

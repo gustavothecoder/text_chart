@@ -62,7 +62,7 @@ class TextChart
   private
 
   def define_references
-    r = @data.sort.reverse
+    r = [*@data.min..@data.max].reverse
     r << 0 unless r.include?(0)
     r
   end
