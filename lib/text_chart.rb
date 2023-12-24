@@ -56,6 +56,7 @@ class TextChart
   # @return [String]
   def to_s
     @designer.draw_axis
+    @designer.draw_bars
     @designer.draw_header.join
   end
 
