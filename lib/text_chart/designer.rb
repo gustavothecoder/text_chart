@@ -31,14 +31,15 @@ class TextChart::Designer
 
   # @return [Array<String>]
   def draw_bars
-    zero_line = @chart_canvas.size - 2
+    last_line_index = @chart_canvas.size - 1
+    zero_line = last_line_index - @text_chart.size_config(:x_axis_height)
     chart_line = 0
     ref_width = @size_calc.calculate_reference_width
-    y_axis_width = 1
-    first_bar_margin = 4
-    middle_bar_margin = 8
+    y_axis_width = @text_chart.size_config(:y_axis_width)
+    first_bar_margin = y_axis_width + @text_chart.size_config(:bar_area_left_margin)
+    middle_bar_margin = @text_chart.size_config(:bar_spacing)
     bar_row = "###"
-    bar_width = 2
+    bar_width = @text_chart.size_config(:bar_width)
     bar_height = bar_start = bar_end = bar_top = 0
 
     @text_chart.data.each do |d|
@@ -48,10 +49,12 @@ class TextChart::Designer
       bar_start = if bar_start == 0
         ref_width + first_bar_margin
       else
-        bar_end + middle_bar_margin
+        # + 1 because bar_end put us on the bar last column
+        bar_end + 1 + middle_bar_margin
       end
 
-      bar_end = bar_start + bar_width
+      # - 1 because bar_start already put us on the bar first column
+      bar_end = bar_start + bar_width - 1
 
       chart_line = zero_line
       bar_top = bar_height - 1
@@ -108,7 +111,7 @@ class TextChart::Designer
     width = @size_calc.calculate_reference_width
     number_of_references = references.size
     ref_size = ref_start = ref_end = nil
-    margin_size = 1
+    margin_size = @text_chart.size_config(:reference_and_y_axis_margin)
 
     number_of_references.times do |i|
       ref_size = references[i].digits.size
