@@ -20,9 +20,11 @@ class TextChart::DesignerTest < Test::Unit::TestCase
   test "#draw_axis" do
     no_sample_designer = TextChart.new("No sample", "Testing", []).designer
     small_sample_designer = TextChart.new("Small sample", "Testing", [*1..10]).designer
+    with_gaps_designer = TextChart.new("With gaps", "Testing", [1, 5, 10]).designer
 
     no_sample_result = no_sample_designer.draw_axis.join
     small_sample_result = small_sample_designer.draw_axis.join
+    with_gaps_result = with_gaps_designer.draw_axis.join
 
     expected_no_sample = <<~END
       0 |         
@@ -45,6 +47,22 @@ class TextChart::DesignerTest < Test::Unit::TestCase
          ----------------------------------------------------------------------------------------------------
     END
     assert_equal small_sample_result, expected_small_sample
+
+    expected_with_gaps = <<~END
+      10 |                             
+       9 |                             
+       8 |                             
+       7 |                             
+       6 |                             
+       5 |                             
+       4 |                             
+       3 |                             
+       2 |                             
+       1 |                             
+       0 |                             
+         ------------------------------
+    END
+    assert_equal with_gaps_result, expected_with_gaps
   end
 
   test "#draw_bars" do
@@ -55,52 +73,74 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     with_zero_designer = TextChart.new(
       "With zero", "Testing", [*0..5].shuffle(random: Random.new(1))
     ).designer
+    duplicated_and_gaps = TextChart.new(
+      "Duplicated and gaps", "Testing", [*1..3, 6, 12].shuffle(random: Random.new(1))
+    ).designer
 
     sorted_result = sorted_designer.draw_bars.join
     random_order_result = random_order_designer.draw_bars.join
     with_zero_result = with_zero_designer.draw_bars.join
+    duplicated_and_gaps_result = duplicated_and_gaps.draw_bars.join
 
-    expected_sorted_result = <<~END
-      10 |                                                                                             ###   
-       9 |                                                                                   ###       ###   
-       8 |                                                                         ###       ###       ###   
-       7 |                                                               ###       ###       ###       ###   
-       6 |                                                     ###       ###       ###       ###       ###   
-       5 |                                           ###       ###       ###       ###       ###       ###   
-       4 |                                 ###       ###       ###       ###       ###       ###       ###   
-       3 |                       ###       ###       ###       ###       ###       ###       ###       ###   
-       2 |             ###       ###       ###       ###       ###       ###       ###       ###       ###   
-       1 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
-       0 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
-         ----------------------------------------------------------------------------------------------------
+    expected_sorted_result = <<-END
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###   
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###       ###   
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###       ###       ###   
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###       ###       ###       ###   
+    '''''''''''''''''''''''''''''''''''''''''''###       ###       ###       ###       ###       ###   
+    '''''''''''''''''''''''''''''''''###       ###       ###       ###       ###       ###       ###   
+    '''''''''''''''''''''''###       ###       ###       ###       ###       ###       ###       ###   
+    '''''''''''''###       ###       ###       ###       ###       ###       ###       ###       ###   
+    '''###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+       ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+                                                                                                       
     END
     assert_equal sorted_result, expected_sorted_result
 
-    expected_random_order_result = <<~END
-      10 |             ###                                                                                   
-       9 |             ###                                                                   ###             
-       8 |             ###                                                         ###       ###             
-       7 |             ###       ###                                               ###       ###             
-       6 |             ###       ###                                               ###       ###       ###   
-       5 |             ###       ###       ###                                     ###       ###       ###   
-       4 |             ###       ###       ###                 ###                 ###       ###       ###   
-       3 |   ###       ###       ###       ###                 ###                 ###       ###       ###   
-       2 |   ###       ###       ###       ###                 ###       ###       ###       ###       ###   
-       1 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
-       0 |   ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
-         ----------------------------------------------------------------------------------------------------
+    expected_random_order_result = <<-END
+    '''''''''''''###                                                                                   
+    '''''''''''''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###             
+    '''''''''''''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###             
+    '''''''''''''###'''''''###                                               ###       ###             
+    '''''''''''''###'''''''###'''''''''''''''''''''''''''''''''''''''''''''''###'''''''###'''''''###   
+    '''''''''''''###'''''''###'''''''###                                     ###       ###       ###   
+    '''''''''''''###'''''''###'''''''###'''''''''''''''''###                 ###       ###       ###   
+    '''###       ###       ###       ###                 ###                 ###       ###       ###   
+    '''###'''''''###'''''''###'''''''###'''''''''''''''''###'''''''###       ###       ###       ###   
+    '''###'''''''###'''''''###'''''''###'''''''###       ###       ###       ###       ###       ###   
+       ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
+                                                                                                       
     END
     assert_equal random_order_result, expected_random_order_result
 
-    expected_with_zero_result = <<~END
-      5 |                                                     ###   
-      4 |                       ###                           ###   
-      3 |                       ###                 ###       ###   
-      2 |   ###                 ###                 ###       ###   
-      1 |   ###       ###       ###                 ###       ###   
-      0 |   ###       ###       ###       ###       ###       ###   
-        ------------------------------------------------------------
+    expected_with_zero_result = <<-END
+   '''''''''''''''''''''''''''''''''''''''''''''''''''''###   
+   '''''''''''''''''''''''###                           ###   
+   '''''''''''''''''''''''###'''''''''''''''''###       ###   
+   '''###                 ###                 ###       ###   
+   '''###'''''''###       ###                 ###       ###   
+   '''###'''''''###'''''''###'''''''###       ###       ###   
+                                                              
     END
     assert_equal with_zero_result, expected_with_zero_result
+
+    expected_duplicated_and_gaps_result = <<-END
+    '''''''''''''''''''''''###                       
+                           ###                       
+                           ###                       
+                           ###                       
+                           ###                       
+                           ###                       
+    '''''''''''''''''''''''###'''''''''''''''''###   
+                           ###                 ###   
+                           ###                 ###   
+    '''###                 ###                 ###   
+    '''###'''''''###       ###                 ###   
+    '''###'''''''###'''''''###'''''''###       ###   
+       ###       ###       ###       ###       ###   
+                                                     
+    END
+    assert_equal duplicated_and_gaps_result, expected_duplicated_and_gaps_result
   end
 end

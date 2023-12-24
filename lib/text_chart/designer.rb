@@ -31,15 +31,15 @@ class TextChart::Designer
 
   # @return [Array<String>]
   def draw_bars
-    draw_axis # TODO: remove this
     zero_line = @chart_canvas.size - 2
     chart_line = 0
     ref_width = @size_calc.calculate_reference_width
+    y_axis_width = 1
     first_bar_margin = 4
     middle_bar_margin = 8
     bar_row = "###"
     bar_width = 2
-    bar_height = bar_start = bar_end = 0
+    bar_height = bar_start = bar_end = bar_top = 0
 
     @text_chart.data.each do |d|
       # + 1 to guarantee that the bar will always be rendered
@@ -54,10 +54,14 @@ class TextChart::Designer
       bar_end = bar_start + bar_width
 
       chart_line = zero_line
+      bar_top = bar_height - 1
       bar_height.times do |t|
         @chart_canvas[chart_line][bar_start..bar_end] = bar_row
-        chart_line -= 1
+
+        chart_line -= 1 unless t == bar_top
       end
+
+      draw_reference_line(chart_line, ref_width + y_axis_width, bar_start)
     end
 
     @chart_canvas
@@ -117,6 +121,17 @@ class TextChart::Designer
         ref_start = ref_size
         @chart_canvas[i][ref_start] = references[i].to_s
       end
+    end
+  end
+
+  def draw_reference_line(chart_line, line_start, line_end)
+    current_position = line_start
+    until current_position == line_end
+      if @chart_canvas[chart_line][current_position] != "#"
+        @chart_canvas[chart_line][current_position] = "'"
+      end
+
+      current_position += 1
     end
   end
 end
