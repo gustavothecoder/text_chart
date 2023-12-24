@@ -59,7 +59,24 @@ class TextChart
     @designer.draw_header.join
   end
 
+  # @param [Symbol] key
+  # @return [Integer]
+  def size_config(key)
+    SIZE_CONFIG[key]
+  end
+
   private
+
+  SIZE_CONFIG = {
+    y_axis_width: 1,
+    bar_area_left_margin: 3,
+    bar_area_right_margin: 3,
+    bar_width: 3,
+    bar_spacing: 7,
+    reference_and_y_axis_margin: 1,
+    x_axis_height: 1,
+    reference_row_height: 1
+  }
 
   def define_references
     r = [*@data.min..@data.max].reverse
