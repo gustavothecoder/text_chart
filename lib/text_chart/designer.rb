@@ -31,7 +31,6 @@ class TextChart::Designer
 
   # @return [Array<String>]
   def draw_bars
-    draw_axis # TODO: remove this
     zero_line = @chart_canvas.size - 2
     chart_line = 0
     ref_width = @size_calc.calculate_reference_width
