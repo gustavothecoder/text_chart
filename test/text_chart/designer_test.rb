@@ -73,14 +73,14 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     with_zero_designer = TextChart.new(
       "With zero", "Testing", [*0..5].shuffle(random: Random.new(1))
     ).designer
-    duplicated_and_gaps = TextChart.new(
+    gaps = TextChart.new(
       "Duplicated and gaps", "Testing", [*1..3, 6, 12].shuffle(random: Random.new(1))
     ).designer
 
     sorted_result = sorted_designer.draw_bars.join
     random_order_result = random_order_designer.draw_bars.join
     with_zero_result = with_zero_designer.draw_bars.join
-    duplicated_and_gaps_result = duplicated_and_gaps.draw_bars.join
+    gaps_result = gaps.draw_bars.join
 
     expected_sorted_result = <<-END
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
@@ -125,7 +125,7 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     END
     assert_equal with_zero_result, expected_with_zero_result
 
-    expected_duplicated_and_gaps_result = <<-END
+    expected_gaps_result = <<-END
     '''''''''''''''''''''''###                       
                            ###                       
                            ###                       
@@ -141,6 +141,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        ###       ###       ###       ###       ###   
                                                      
     END
-    assert_equal duplicated_and_gaps_result, expected_duplicated_and_gaps_result
+    assert_equal gaps_result, expected_gaps_result
   end
 end

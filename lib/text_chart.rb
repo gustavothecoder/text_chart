@@ -4,38 +4,23 @@ require_relative "text_chart/version"
 require_relative "text_chart/size_calculator"
 require_relative "text_chart/designer"
 
-# Last 5 races
-# Goal: 3km in 16m
-# AVG: 13
+# This is the main class of the text_chart. After calling the `#to_s` method you'll receive a string
+# representing the chart, just like this one:
 #
-# 18 |'''###
-# 17 |   ###
-# 16 |   ###
-# 15 |'''###'''''''''''''''''''''''''''###
-# 14 |   ###                           ###
-# 13 |   ###                           ###
-# 12 |   ###                           ###
-# 11 |   ###                           ###
-# 10 |'''###'''''''###'''''''''''''''''###'''''''###
-#  9 |'''###'''''''###'''''''###       ###       ###
-#  8 |   ###       ###       ###       ###       ###
-#  7 |   ###       ###       ###       ###       ###
-#  6 |   ###       ###       ###       ###       ###
-#  5 |   ###       ###       ###       ###       ###
-#  4 |   ###       ###       ###       ###       ###
-#  3 |   ###       ###       ###       ###       ###
-#  2 |   ###       ###       ###       ###       ###
-#  1 |   ###       ###       ###       ###       ###
-#  0 |   ###       ###       ###       ###       ###
-#     --------------------------------------------------
+# text_chart demonstration
+# Goal: Show you how cool this is
 #
-# Requirements:
-# 1. The "Last 5 races" should be a customizable string;
-# 2. The "Goal" should be a customizable string;
-# 3. The "AVG" should consider only the displayed data;
-# 4. The chart should support time, integers and floats;
-# 5. The y axi should change based on the highest value.
-
+# 9 |'''''''''''''''''''''''''''''''''''''''''''''''''''''###
+# 8 |                                                     ###
+# 7 |                                                     ###
+# 6 |'''''''''''''###                                     ###
+# 5 |'''''''''''''###'''''''''''''''''''''''''''###       ###
+# 4 |'''''''''''''###'''''''''''''''''''''''''''###'''''''###'''''''###
+# 3 |'''###'''''''###'''''''''''''''''###       ###       ###       ###
+# 2 |   ###       ###                 ###       ###       ###       ###
+# 1 |   ###       ###                 ###       ###       ###       ###
+# 0 |'''###'''''''###'''''''###       ###       ###       ###       ###
+#   ----------------------------------------------------------------------
 class TextChart
   class Error < StandardError; end
 
@@ -56,6 +41,7 @@ class TextChart
   # @return [String]
   def to_s
     @designer.draw_axis
+    @designer.draw_bars
     @designer.draw_header.join
   end
 
