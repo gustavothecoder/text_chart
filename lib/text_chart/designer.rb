@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class TextChart::Designer
   # @param [TextChart] text_chart
   # @param [TextChart::SizeCalculator] size_calc
@@ -14,7 +12,7 @@ class TextChart::Designer
   def draw_header
     header = []
     header << "#{@text_chart.title}\n"
-    header << "Goal: #{@text_chart.goal}\n"
+    header << "#{@text_chart.subtitle}\n"
     header << "\n"
 
     @chart_canvas.prepend(*header)
@@ -64,6 +62,18 @@ class TextChart::Designer
       draw_reference_line(chart_line, ref_width + y_axis_width, bar_start)
     end
 
+    @chart_canvas
+  end
+
+  # @return [Array<String>]
+  def paint
+    @chart_canvas.map do |row|
+      next if row.gsub!(@text_chart.title, colorize(@text_chart.title, :bold))
+
+      row.gsub!(/-?\d/) { colorize($&, :cyan) }
+      row.gsub!(/'+/) { colorize($&, :cyan) }
+      row.gsub!(/#+/) { colorize($&, :blue) }
+    end
     @chart_canvas
   end
 
@@ -132,6 +142,20 @@ class TextChart::Designer
       end
 
       current_position += 1
+    end
+  end
+
+  # @param string to be colorized [String]
+  # @param desired color/formatting [Symbol]
+  # @return colorized string [String]
+  def colorize(str, format)
+    case format
+    when :bold
+      "\e[1m#{str}\e[22m"
+    when :cyan
+      "\e[36m#{str}\e[0m"
+    when :blue
+      "\e[34m#{str}\e[0m"
     end
   end
 end

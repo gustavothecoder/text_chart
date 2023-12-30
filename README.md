@@ -3,7 +3,7 @@
 `TextChart` is a gem that helps you generate text charts, like this one:
 ```text
  text_chart demonstration
- Goal: Show you how cool this is
+ Show you how cool this is
 
  9 |'''''''''''''''''''''''''''''''''''''''''''''''''''''###
  8 |                                                     ###

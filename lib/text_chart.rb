@@ -8,7 +8,7 @@ require_relative "text_chart/designer"
 # representing the chart, just like this one:
 #
 # text_chart demonstration
-# Goal: Show you how cool this is
+# Show you how cool this is
 #
 # 9 |'''''''''''''''''''''''''''''''''''''''''''''''''''''###
 # 8 |                                                     ###
@@ -25,24 +25,30 @@ class TextChart
   class Error < StandardError; end
 
   # @param [String] title
-  # @param [String] goal
+  # @param [String] subtitle
   # @param [Array] data
-  def initialize(title, goal, data)
+  # @param [Boolean] colors
+  def initialize(title, subtitle, data, colors = false)
     @title = title
-    @goal = goal
+    @subtitle = subtitle
     @data = data.empty? ? [0] : data
+    @colors = colors
     @refs = define_references
     @size_calculator = SizeCalculator.new(self)
     @designer = Designer.new(self, @size_calculator)
   end
 
-  attr_reader :title, :goal, :refs, :data, :size_calculator, :designer
+  attr_reader :title, :subtitle, :refs, :data, :size_calculator, :designer
 
   # @return [String]
   def to_s
-    @designer.draw_axis
-    @designer.draw_bars
-    @designer.draw_header.join
+    result = @designer.draw_axis &&
+      @designer.draw_bars &&
+      @designer.draw_header
+
+    result = @designer.paint if @colors
+
+    result.join
   end
 
   # @param [Symbol] key
