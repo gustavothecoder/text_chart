@@ -67,6 +67,6 @@ class TextChart
   def define_references
     r = [*@data.min..@data.max].reverse
     r << 0 unless r.include?(0)
-    r
+    r.map(&:to_s)
   end
 end

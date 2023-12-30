@@ -8,16 +8,19 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     small_sample = TextChart.new("", "", [*1..10]).size_calculator
     medium_sample = TextChart.new("", "", [*1..100]).size_calculator
     big_sample = TextChart.new("", "", [*1..1000]).size_calculator
+    with_negative_number = TextChart.new("", "", [*-11..3]).size_calculator
 
     no_sample_result = no_sample.calculate_reference_width
     small_sample_result = small_sample.calculate_reference_width
     medium_sample_result = medium_sample.calculate_reference_width
     big_sample_result = big_sample.calculate_reference_width
+    with_negative_number_result = with_negative_number.calculate_reference_width
 
     assert_equal no_sample_result, 2
     assert_equal small_sample_result, 3
     assert_equal medium_sample_result, 4
     assert_equal big_sample_result, 5
+    assert_equal with_negative_number_result, 4
   end
 
   test "#calculate_number_of_rows" do
@@ -122,5 +125,16 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     #  0 |         y = 11
     #    ----------
     assert_equal small_sample_result, 11
+  end
+
+  test "#calculate_height_of_bars" do
+    no_sample = TextChart.new("", "", []).size_calculator
+    with_sample = TextChart.new("", "", [*-3..3]).size_calculator
+
+    no_sample_result = no_sample.calculate_height_of_bars
+    with_sample = with_sample.calculate_height_of_bars
+
+    assert_equal no_sample_result, [1]
+    assert_equal with_sample, [1, 2, 3, 4, 5, 6, 7]
   end
 end
