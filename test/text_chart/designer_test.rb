@@ -28,13 +28,12 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     with_gaps_result = with_gaps_designer.draw_axis.join
     with_negative_number_result = with_negative_number.draw_axis.join
 
-    expected_no_sample = <<~END
+    assert_equal no_sample_result, <<~END
       0 |         
         ----------
     END
-    assert_equal no_sample_result, expected_no_sample
 
-    expected_small_sample = <<~END
+    assert_equal small_sample_result, <<~END
       10 |                                                                                                   
        9 |                                                                                                   
        8 |                                                                                                   
@@ -48,9 +47,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        0 |                                                                                                   
          ----------------------------------------------------------------------------------------------------
     END
-    assert_equal small_sample_result, expected_small_sample
 
-    expected_with_gaps = <<~END
+    assert_equal with_gaps_result, <<~END
       10 |                             
        9 |                             
        8 |                             
@@ -64,9 +62,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        0 |                             
          ------------------------------
     END
-    assert_equal with_gaps_result, expected_with_gaps
 
-    expected_with_negative_number = <<~END
+    assert_equal with_negative_number_result, <<~END
        3 |                                                                     
        2 |                                                                     
        1 |                                                                     
@@ -76,7 +73,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
       -3 |                                                                     
          ----------------------------------------------------------------------
     END
-    assert_equal with_negative_number_result, expected_with_negative_number
   end
 
   test "#draw_bars" do
@@ -100,7 +96,7 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     gaps_result = gaps.draw_bars.join
     negative_result = negative.draw_bars.join
 
-    expected_sorted_result = <<-END
+    assert_equal sorted_result, <<-END
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###   
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###       ###   
@@ -114,9 +110,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
                                                                                                        
     END
-    assert_equal sorted_result, expected_sorted_result
 
-    expected_random_order_result = <<-END
+    assert_equal random_order_result, <<-END
     '''''''''''''###                                                                                   
     '''''''''''''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###             
     '''''''''''''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###             
@@ -130,9 +125,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        ###       ###       ###       ###       ###       ###       ###       ###       ###       ###   
                                                                                                        
     END
-    assert_equal random_order_result, expected_random_order_result
 
-    expected_with_zero_result = <<-END
+    assert_equal with_zero_result, <<-END
    '''''''''''''''''''''''''''''''''''''''''''''''''''''###   
    '''''''''''''''''''''''###                           ###   
    '''''''''''''''''''''''###'''''''''''''''''###       ###   
@@ -141,9 +135,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
    '''###'''''''###'''''''###'''''''###       ###       ###   
                                                               
     END
-    assert_equal with_zero_result, expected_with_zero_result
 
-    expected_gaps_result = <<-END
+    assert_equal gaps_result, <<-END
     '''''''''''''''''''''''###                       
                            ###                       
                            ###                       
@@ -159,9 +152,8 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        ###       ###       ###       ###       ###   
                                                      
     END
-    assert_equal gaps_result, expected_gaps_result
 
-    expected_negative_result = <<-END
+    assert_equal negative_result, <<-END
     '''###                                                               
     '''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
     '''###'''''''''''''''''''''''''''''''''''''###                 ###   
@@ -171,6 +163,5 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     '''###'''''''###'''''''###'''''''###       ###       ###       ###   
                                                                          
     END
-    assert_equal negative_result, expected_negative_result
   end
 end
