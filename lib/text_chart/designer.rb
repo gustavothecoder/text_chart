@@ -40,12 +40,9 @@ class TextChart::Designer
     middle_bar_margin = @text_chart.size_config(:bar_spacing)
     bar_row = "###"
     bar_width = @text_chart.size_config(:bar_width)
-    bar_height = bar_start = bar_end = bar_top = 0
+    bar_start = bar_end = bar_top = 0
 
-    @text_chart.data.each do |d|
-      # + 1 to guarantee that the bar will always be rendered
-      bar_height = d + 1
-
+    @size_calc.calculate_height_of_bars.each do |height|
       bar_start = if bar_start == 0
         ref_width + first_bar_margin
       else
@@ -57,8 +54,8 @@ class TextChart::Designer
       bar_end = bar_start + bar_width - 1
 
       chart_line = zero_line
-      bar_top = bar_height - 1
-      bar_height.times do |t|
+      bar_top = height - 1
+      height.times do |t|
         @chart_canvas[chart_line][bar_start..bar_end] = bar_row
 
         chart_line -= 1 unless t == bar_top
@@ -114,15 +111,15 @@ class TextChart::Designer
     margin_size = @text_chart.size_config(:reference_and_y_axis_margin)
 
     number_of_references.times do |i|
-      ref_size = references[i].digits.size
+      ref_size = references[i].size
 
       if ref_size == (width - margin_size)
         ref_start = 0
         ref_end = ref_size - 1
-        @chart_canvas[i][ref_start..ref_end] = references[i].to_s
+        @chart_canvas[i][ref_start..ref_end] = references[i]
       else
         ref_start = ref_size
-        @chart_canvas[i][ref_start] = references[i].to_s
+        @chart_canvas[i][ref_start] = references[i]
       end
     end
   end

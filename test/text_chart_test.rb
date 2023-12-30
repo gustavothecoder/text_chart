@@ -18,11 +18,15 @@ class TextChartTest < Test::Unit::TestCase
     duplicated_and_gaps = TextChart.new(
       "Duplicated and gaps sample", "Testing", [*0..3, 3, 6, 12].shuffle(random: Random.new(1))
     )
+    with_negative_numbers = TextChart.new(
+      "With negative numbers sample", "Testing", [*-3..3].shuffle(random: Random.new(1))
+    )
 
     no_sample_result = no_sample.to_s
     sorted_result = sorted_sample.to_s
     random_order_result = random_order_sample.to_s
     duplicated_and_gaps_result = duplicated_and_gaps.to_s
+    with_negative_numbers_result = with_negative_numbers.to_s
 
     assert_equal no_sample_result, <<~EXPECTED
       No sample
@@ -82,6 +86,19 @@ class TextChartTest < Test::Unit::TestCase
        2 |'''###'''''''###                           ###       ###       ###   
        1 |'''###'''''''###'''''''###                 ###       ###       ###   
        0 |'''###'''''''###'''''''###'''''''###       ###       ###       ###   
+         ----------------------------------------------------------------------
+    EXPECTED
+    assert_equal with_negative_numbers_result, <<~EXPECTED
+      With negative numbers sample
+      Goal: Testing
+
+       3 |'''###                                                               
+       2 |'''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
+       1 |'''###'''''''''''''''''''''''''''''''''''''###                 ###   
+       0 |'''###'''''''''''''''''''''''''''''''''''''###'''''''###       ###   
+      -1 |'''###'''''''###                           ###       ###       ###   
+      -2 |'''###'''''''###'''''''###                 ###       ###       ###   
+      -3 |'''###'''''''###'''''''###'''''''###       ###       ###       ###   
          ----------------------------------------------------------------------
     EXPECTED
   end

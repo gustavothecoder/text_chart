@@ -36,10 +36,9 @@ class TextChart::SizeCalculator
   def calculate_reference_width
     @reference_width ||=
       begin
-        biggest_item = @text_chart.data.max
-        biggest_item_width = biggest_item.digits.count
+        biggest_number_size = @text_chart.data.map(&:to_s).map(&:size).max
         reference_margin = @text_chart.size_config(:reference_and_y_axis_margin)
-        biggest_item_width + reference_margin
+        biggest_number_size + reference_margin
       end
   end
 
@@ -71,6 +70,21 @@ class TextChart::SizeCalculator
       begin
         x_axis_row = @text_chart.size_config(:x_axis_height)
         calculate_number_of_rows - x_axis_row
+      end
+  end
+
+  # @return [Array<Integer>] the height of each sample item
+  def calculate_height_of_bars
+    @height_of_bars ||=
+      begin
+        offset = if @text_chart.data.any?(&:negative?)
+          @text_chart.data.min.abs
+        else
+          0
+        end
+        # + 1 to guarantee that the bar will always be renderde
+        offset += 1
+        @text_chart.data.map { |i| i + offset }
       end
   end
 end
