@@ -14,7 +14,7 @@ class TextChart::Designer
   def draw_header
     header = []
     header << "#{@text_chart.title}\n"
-    header << "Goal: #{@text_chart.goal}\n"
+    header << "#{@text_chart.subtitle}\n"
     header << "\n"
 
     @chart_canvas.prepend(*header)

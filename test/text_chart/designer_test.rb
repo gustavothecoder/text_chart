@@ -4,13 +4,13 @@ require "test_helper"
 
 class TextChart::DesignerTest < Test::Unit::TestCase
   test "#draw_header" do
-    text_chart = TextChart.new("This is a nice title", "This is a nice goal", [])
+    text_chart = TextChart.new("This is a nice title", "This is a nice subtitle", [])
 
     result = text_chart.designer.draw_header.join
 
     assert_equal result, <<~EXPECTED
       This is a nice title
-      Goal: This is a nice goal
+      This is a nice subtitle
 
                   
                   

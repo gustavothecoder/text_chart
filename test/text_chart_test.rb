@@ -30,14 +30,14 @@ class TextChartTest < Test::Unit::TestCase
 
     assert_equal no_sample_result, <<~EXPECTED
       No sample
-      Goal: Testing
+      Testing
 
       0 |'''###   
         ----------
     EXPECTED
     assert_equal sorted_result, <<~EXPECTED
       Sorted sample
-      Goal: Testing
+      Testing
 
       10 |'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
        9 |'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###       ###   
@@ -54,7 +54,7 @@ class TextChartTest < Test::Unit::TestCase
     EXPECTED
     assert_equal random_order_result, <<~EXPECTED
       Random order sample
-      Goal: Testing
+      Testing
 
       10 |'''''''''''''###                                                                                   
        9 |'''''''''''''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''###             
@@ -71,7 +71,7 @@ class TextChartTest < Test::Unit::TestCase
     EXPECTED
     assert_equal duplicated_and_gaps_result, <<~EXPECTED
       Duplicated and gaps sample
-      Goal: Testing
+      Testing
 
       12 |'''###                                                               
       11 |   ###                                                               
@@ -90,7 +90,7 @@ class TextChartTest < Test::Unit::TestCase
     EXPECTED
     assert_equal with_negative_numbers_result, <<~EXPECTED
       With negative numbers sample
-      Goal: Testing
+      Testing
 
        3 |'''###                                                               
        2 |'''###'''''''''''''''''''''''''''''''''''''''''''''''''''''''''###   
