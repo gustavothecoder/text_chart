@@ -27,10 +27,12 @@ class TextChart
   # @param [String] title
   # @param [String] subtitle
   # @param [Array] data
-  def initialize(title, subtitle, data)
+  # @param [Boolean] colors
+  def initialize(title, subtitle, data, colors = false)
     @title = title
     @subtitle = subtitle
     @data = data.empty? ? [0] : data
+    @colors = colors
     @refs = define_references
     @size_calculator = SizeCalculator.new(self)
     @designer = Designer.new(self, @size_calculator)
@@ -40,9 +42,13 @@ class TextChart
 
   # @return [String]
   def to_s
-    @designer.draw_axis
-    @designer.draw_bars
-    @designer.draw_header.join
+    result = @designer.draw_axis &&
+      @designer.draw_bars &&
+      @designer.draw_header
+
+    result = @designer.paint if @colors
+
+    result.join
   end
 
   # @param [Symbol] key
