@@ -17,14 +17,14 @@ class TextChart::SizeCalculator
         y_axis_width = @text_chart.size_config(:y_axis_width)
         result += y_axis_width
 
-        left_margin = @text_chart.size_config(:bar_area_left_margin)
-        right_margin = @text_chart.size_config(:bar_area_right_margin)
+        left_margin = @text_chart.size_config(:bar_margin)
+        right_margin = @text_chart.size_config(:bar_margin)
         result += left_margin + right_margin
 
         bar_width = @text_chart.size_config(:bar_width)
         result += @text_chart.data.size * bar_width
 
-        bar_spacing = @text_chart.size_config(:bar_spacing)
+        bar_spacing = @text_chart.size_config(:bar_margin)
         # -1 to avoid adding spacing after the last bar.
         result += (@text_chart.data.size - 1) * bar_spacing
 

@@ -34,18 +34,17 @@ class TextChart::Designer
     chart_line = 0
     ref_width = @size_calc.calculate_reference_width
     y_axis_width = @text_chart.size_config(:y_axis_width)
-    first_bar_margin = y_axis_width + @text_chart.size_config(:bar_area_left_margin)
-    middle_bar_margin = @text_chart.size_config(:bar_spacing)
+    bar_margin = @text_chart.size_config(:bar_margin)
     bar_row = "###"
     bar_width = @text_chart.size_config(:bar_width)
     bar_start = bar_end = bar_top = 0
 
     @size_calc.calculate_height_of_bars.each do |height|
       bar_start = if bar_start == 0
-        ref_width + first_bar_margin
+        ref_width + bar_margin + y_axis_width
       else
         # + 1 because bar_end put us on the bar last column
-        bar_end + 1 + middle_bar_margin
+        bar_end + 1 + bar_margin
       end
 
       # - 1 because bar_start already put us on the bar first column
