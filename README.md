@@ -44,9 +44,14 @@ This snippet will generate the text chart at the top of the readme.
 ```ruby
 TextChart.new("text_chart demonstration", "Show you how cool this is", [*1..10].shuffle(random: Random.new(1)).to_s
 ```
+
+You can enable colors:
+```ruby
+TextChart.new("text_chart demonstration", "Show you how cool this is", [*1..10].shuffle(random: Random.new(1), true).to_s
+```
 ## Limitations
 
-Right now `TextChart` only supports positive integers.
+Right now `TextChart` only supports integers.
 
 ## Development
 
