@@ -72,19 +72,4 @@ class TextChart::SizeCalculator
         calculate_number_of_rows - x_axis_row
       end
   end
-
-  # @return [Array<Integer>] the height of each sample item
-  def calculate_height_of_bars
-    @height_of_bars ||=
-      begin
-        offset = if @text_chart.data.any?(&:negative?)
-          @text_chart.data.min.abs
-        else
-          0
-        end
-        # + 1 to guarantee that the bar will always be renderde
-        offset += 1
-        @text_chart.data.map { |i| i + offset }
-      end
-  end
 end

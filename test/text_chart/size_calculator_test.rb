@@ -46,9 +46,8 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     #  3 |       8
     #  2 |       9
     #  1 |       10
-    #  0 |       11
-    #    ------- 12
-    assert_equal small_sample_result, 12
+    #    ------- 11
+    assert_equal small_sample_result, 11
   end
 
   test "#calculate_number_of_columns" do
@@ -121,20 +120,8 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     #  4 |         y
     #  3 |         y
     #  2 |         y
-    #  1 |         y
-    #  0 |         y = 11
+    #  1 |         y = 10
     #    ----------
-    assert_equal small_sample_result, 11
-  end
-
-  test "#calculate_height_of_bars" do
-    no_sample = TextChart.new("", "", []).size_calculator
-    with_sample = TextChart.new("", "", [*-3..3]).size_calculator
-
-    no_sample_result = no_sample.calculate_height_of_bars
-    with_sample = with_sample.calculate_height_of_bars
-
-    assert_equal no_sample_result, [1]
-    assert_equal with_sample, [1, 2, 3, 4, 5, 6, 7]
+    assert_equal small_sample_result, 10
   end
 end
