@@ -38,8 +38,9 @@ class TextChart::Designer
     bar_row = "###"
     bar_width = @text_chart.size_config(:bar_width)
     bar_start = bar_end = bar_top = 0
+    height_of_bars = define_height_of_bars
 
-    @size_calc.calculate_height_of_bars.each do |height|
+    height_of_bars.each do |height|
       bar_start = if bar_start == 0
         ref_width + bar_margin + y_axis_width
       else
@@ -156,5 +157,10 @@ class TextChart::Designer
     when :blue
       "\e[34m#{str}\e[0m"
     end
+  end
+
+  # @return height of each sample item [Array<Integer>]
+  def define_height_of_bars
+    @text_chart.data.map { |i| @text_chart.refs.size - @text_chart.refs.index(i.to_s) }
   end
 end
