@@ -37,8 +37,7 @@ class TextChart::SizeCalculator
     @reference_width ||=
       begin
         biggest_number_size = @text_chart.data.map(&:to_s).map(&:size).max
-        reference_margin = @text_chart.size_config(:reference_and_y_axis_margin)
-        biggest_number_size + reference_margin
+        biggest_number_size
       end
   end
 

@@ -64,7 +64,6 @@ class TextChart
     y_axis_width: 1,
     bar_margin: 3,
     bar_width: 3,
-    reference_and_y_axis_margin: 1,
     x_axis_height: 1,
     reference_row_height: 1
   }
