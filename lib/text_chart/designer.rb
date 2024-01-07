@@ -118,12 +118,11 @@ class TextChart::Designer
     width = @size_calc.calculate_reference_width
     number_of_references = references.size
     ref_size = ref_start = ref_end = nil
-    margin_size = @text_chart.size_config(:reference_and_y_axis_margin)
 
     number_of_references.times do |i|
       ref_size = references[i].size
 
-      if ref_size == (width - margin_size)
+      if ref_size == width
         ref_start = 0
         ref_end = ref_size - 1
         @chart_canvas[i][ref_start..ref_end] = references[i]
