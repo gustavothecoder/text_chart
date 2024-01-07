@@ -62,7 +62,7 @@ class TextChart
 
   SIZE_CONFIG = {
     y_axis_width: 1,
-    bar_margin: 3,
+    bar_margin: 1,
     bar_width: 3,
     x_axis_height: 1,
     reference_row_height: 1

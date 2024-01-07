@@ -31,22 +31,22 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     small_sample_result = small_sample.calculate_number_of_rows
 
     # Example:
-    # 0|          1
-    #  ---------- 2
+    # 0|      1
+    #  ------ 2
     assert_equal no_sample_result, 2
 
     # Example:
-    # 10|       1
-    #  9|       2
-    #  8|       3
-    #  7|       4
-    #  6|       5
-    #  5|       6
-    #  4|       7
-    #  3|       8
-    #  2|       9
-    #  1|       10
-    #   ------- 11
+    # 10|      1
+    #  9|      2
+    #  8|      3
+    #  7|      4
+    #  6|      5
+    #  5|      6
+    #  4|      7
+    #  3|      8
+    #  2|      9
+    #  1|      10
+    #   ------ 11
     assert_equal small_sample_result, 11
   end
 
@@ -59,19 +59,19 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
 
     # Example:
     # 0|
-    #  ----------
-    # ccccccccccc = 11
-    assert_equal no_sample_result, 11
+    #  ------
+    # ccccccc = 7
+    assert_equal no_sample_result, 7
 
     # Example:
     # 10|
     #  .
     #  .
     #  .
-    #  2|   ###   ###   ###   ###   ###   ###   ###   ###   ###   ###
-    #   ---------------------------------------------------------------
-    # ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc = 66
-    assert_equal small_sample_result, 66
+    #  2| ### ### ### ### ### ### ### ### ### ###
+    #   ------------------------------------------
+    # cccccccccccccccccccccccccccccccccccccccccccc = 44
+    assert_equal small_sample_result, 44
   end
 
   test "#calculate_x_axis_size" do
@@ -83,19 +83,19 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
 
     # Example:
     # 0|
-    #  ----------
-    #  xxxxxxxxxx = 10
-    assert_equal no_sample_result, 10
+    #  ------
+    #  cccccc = 6
+    assert_equal no_sample_result, 6
 
     # Example:
     # 10|
     #  .
     #  .
     #  .
-    #  2|   ###   ###   ###   ###   ###   ###   ###   ###   ###   ###
-    #   ----------------------------------------------------------------
-    #   cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc = 64
-    assert_equal small_sample_result, 64
+    #  2| ### ### ### ### ### ### ### ### ### ###
+    #   ------------------------------------------
+    #   cccccccccccccccccccccccccccccccccccccccccc = 42
+    assert_equal small_sample_result, 42
   end
 
   test "#calculate_y_axis_size" do
@@ -106,22 +106,22 @@ class TextChart::SizeCalculatorTest < Test::Unit::TestCase
     small_sample_result = small_sample.calculate_y_axis_size
 
     # Example:
-    # 0|         y = 1
-    #  ----------
+    # 0|      y = 1
+    #  ------
     assert_equal no_sample_result, 1
 
     # Example:
-    # 10|         y
-    #  9|         y
-    #  8|         y
-    #  7|         y
-    #  6|         y
-    #  5|         y
-    #  4|         y
-    #  3|         y
-    #  2|         y
-    #  1|         y = 10
-    #   ----------
+    # 10|     y
+    #  9|     y
+    #  8|     y
+    #  7|     y
+    #  6|     y
+    #  5|     y
+    #  4|     y
+    #  3|     y
+    #  2|     y
+    #  1|     y = 10
+    #   ------
     assert_equal small_sample_result, 10
   end
 end
