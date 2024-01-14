@@ -58,8 +58,6 @@ class TextChart::Designer
 
         chart_line -= 1 unless t == bar_top
       end
-
-      draw_reference_line(chart_line, ref_width + y_axis_width, bar_start)
     end
 
     @chart_canvas
@@ -71,7 +69,6 @@ class TextChart::Designer
       next if row.gsub!(@text_chart.title, colorize(@text_chart.title, :bold))
 
       row.gsub!(/-?\d/) { colorize($&, :cyan) }
-      row.gsub!(/'+/) { colorize($&, :cyan) }
       row.gsub!(/#+/) { colorize($&, :blue) }
     end
     @chart_canvas
@@ -130,17 +127,6 @@ class TextChart::Designer
         ref_start = ref_size
         @chart_canvas[i][ref_start] = references[i]
       end
-    end
-  end
-
-  def draw_reference_line(chart_line, line_start, line_end)
-    current_position = line_start
-    until current_position == line_end
-      if @chart_canvas[chart_line][current_position] != "#"
-        @chart_canvas[chart_line][current_position] = "'"
-      end
-
-      current_position += 1
     end
   end
 
