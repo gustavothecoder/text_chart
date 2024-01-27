@@ -111,22 +111,24 @@ class TextChart::Designer
   end
 
   def draw_references
-    references = @text_chart.refs
+    references = @text_chart.data
     width = @size_calc.calculate_reference_width
-    number_of_references = references.size
-    ref_size = ref_start = ref_end = nil
+    y_axis_size = @size_calc.calculate_y_axis_size
+    ref_size = ref_start = ref_end = ref_str = nil
 
-    number_of_references.times do |i|
-      ref_size = references[i].size
+    references.each do |r|
+      row = y_axis_size - @size_calc.calculate_bar_height(r)
+      ref_str = r.to_s
+      ref_size = ref_str.size
 
       if ref_size == width
         ref_start = 0
         ref_end = ref_size - 1
-        @chart_canvas[i][ref_start..ref_end] = references[i]
       else
-        ref_start = ref_size
-        @chart_canvas[i][ref_start] = references[i]
+        ref_start = width - ref_size
+        ref_end = [ref_start, ref_size].max
       end
+      @chart_canvas[row][ref_start..ref_end] = ref_str
     end
   end
 
@@ -146,6 +148,6 @@ class TextChart::Designer
 
   # @return height of each sample item [Array<Integer>]
   def define_height_of_bars
-    @text_chart.data.map { |i| @text_chart.refs.size - @text_chart.refs.index(i.to_s) }
+    @text_chart.data.map { |i| @size_calc.calculate_bar_height(i) }
   end
 end

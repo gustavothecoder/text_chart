@@ -10,18 +10,22 @@ require_relative "text_chart/designer"
 # text_chart demonstration
 # Show you how cool this is
 #
-# 10 |'''''''''###
-#  9 |'''''''''###'''''''''''''''''''''''''''''''''''''''###
-#  8 |'''''''''###'''''''''''''''''''''''''''''''''###   ###
-#  7 |'''''''''###'''###                           ###   ###
-#  6 |'''''''''###'''###'''''''''''''''''''''''''''###'''###'''###
-#  5 |'''''''''###'''###'''###                     ###   ###   ###
-#  4 |'''''''''###'''###'''###'''''''''###         ###   ###   ###
-#  3 |'''###   ###   ###   ###         ###         ###   ###   ###
-#  2 |'''###'''###'''###'''###'''''''''###'''###   ###   ###   ###
-#  1 |'''###'''###'''###'''###'''###   ###   ###   ###   ###   ###
-#  0 |   ###   ###   ###   ###   ###   ###   ###   ###   ###   ###
-#    ----------------------------------------------------------------
+# 73|                                                         ###
+#   |                                                         ###
+# 67|             ###             ###                         ###         ###
+#   |             ###             ###                         ###         ###
+# 54|     ###     ###     ###     ###                         ### ###     ###
+#   |     ###     ###     ###     ###                         ### ###     ###
+# 44|     ### ### ###     ###     ###     ###                 ### ###     ### ###
+#   |     ### ### ###     ###     ###     ###                 ### ###     ### ###
+# 33|     ### ### ###     ### ### ###     ###                 ### ###     ### ###
+#   |     ### ### ###     ### ### ###     ###                 ### ###     ### ###
+# 27|     ### ### ### ### ### ### ###     ###         ### ### ### ###     ### ###
+# 20|     ### ### ### ### ### ### ###     ###     ### ### ### ### ### ### ### ###
+# 14| ### ### ### ### ### ### ### ### ### ###     ### ### ### ### ### ### ### ###
+# 10| ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+#  5| ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+#   ----------------------------------------------------------------------------------
 class TextChart
   class Error < StandardError; end
 
@@ -30,16 +34,17 @@ class TextChart
   # @param [Array] data
   # @param [Boolean] colors
   def initialize(title, subtitle, data, colors = false)
+    raise Error, "`data` cannot be empty" if data.empty?
+
     @title = title
     @subtitle = subtitle
-    @data = data.empty? ? [0] : data
+    @data = data.empty? ? [0] : data.filter(&:positive?)
     @colors = colors
-    @refs = define_references
     @size_calculator = SizeCalculator.new(self)
     @designer = Designer.new(self, @size_calculator)
   end
 
-  attr_reader :title, :subtitle, :refs, :data, :size_calculator, :designer
+  attr_reader :title, :subtitle, :data, :size_calculator, :designer
 
   # @return [String]
   def to_s
@@ -65,11 +70,7 @@ class TextChart
     bar_margin: 1,
     bar_width: 3,
     x_axis_height: 1,
-    reference_row_height: 1
+    bar_row_height: 1,
+    max_bar_height: 60
   }
-
-  def define_references
-    r = [*@data.min..@data.max].reverse
-    r.map(&:to_s)
-  end
 end
