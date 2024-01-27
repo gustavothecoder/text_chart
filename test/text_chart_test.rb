@@ -9,8 +9,11 @@ class TextChartTest < Test::Unit::TestCase
     end
   end
 
+  test "#initialize" do
+    assert_raise_message("`data` cannot be empty") { TextChart.new("Title", "Subtitle", []) }
+  end
+
   test "#to_s" do
-    no_sample = TextChart.new("No sample", "Testing", [])
     sorted_sample = TextChart.new("Sorted sample", "Testing", [*5..10])
     random_order_sample = TextChart.new(
       "Random order sample", "Testing", [*1..10].shuffle(random: Random.new(1))
@@ -18,36 +21,33 @@ class TextChartTest < Test::Unit::TestCase
     duplicated_and_gaps = TextChart.new(
       "Duplicated and gaps sample", "Testing", [*0..3, 3, 6, 12].shuffle(random: Random.new(1))
     )
-    with_negative_numbers = TextChart.new(
-      "With negative numbers sample", "Testing", [*-3..3].shuffle(random: Random.new(1))
-    )
     with_colors = TextChart.new(
-      "With colors", "Testing", [*-3..3].shuffle(random: Random.new(1)), true
+      "With colors", "Testing", [*0..3, 3, 6, 12].shuffle(random: Random.new(1)), true
+    )
+    nearby_numbers = TextChart.new(
+      "Nearby numbers", "Numbers between 90 and 120", [116, 114, 115, 102, 104, 96, 103, 113, 119, 94]
     )
 
-    no_sample_result = no_sample.to_s
     sorted_result = sorted_sample.to_s
     random_order_result = random_order_sample.to_s
     duplicated_and_gaps_result = duplicated_and_gaps.to_s
-    with_negative_numbers_result = with_negative_numbers.to_s
     with_colors_result = with_colors.to_s
+    nearby_numbers_result = nearby_numbers.to_s
 
-    assert_equal no_sample_result, <<~EXPECTED
-      No sample
-      Testing
-
-      0| ### 
-       ------
-    EXPECTED
     assert_equal sorted_result, <<~EXPECTED
       Sorted sample
       Testing
 
       10|                     ### 
+        |                     ### 
        9|                 ### ### 
+        |                 ### ### 
        8|             ### ### ### 
+        |             ### ### ### 
        7|         ### ### ### ### 
+        |         ### ### ### ### 
        6|     ### ### ### ### ### 
+        |     ### ### ### ### ### 
        5| ### ### ### ### ### ### 
         --------------------------
     EXPECTED
@@ -71,46 +71,48 @@ class TextChartTest < Test::Unit::TestCase
       Duplicated and gaps sample
       Testing
 
-      12| ###                         
-      11| ###                         
-      10| ###                         
-       9| ###                         
-       8| ###                         
-       7| ###                         
-       6| ###                     ### 
-       5| ###                     ### 
-       4| ###                     ### 
-       3| ###             ### ### ### 
-       2| ### ###         ### ### ### 
-       1| ### ### ###     ### ### ### 
-       0| ### ### ### ### ### ### ### 
-        ------------------------------
-    EXPECTED
-    assert_equal with_negative_numbers_result, <<~EXPECTED
-      With negative numbers sample
-      Testing
-
-       3| ###                         
-       2| ###                     ### 
-       1| ###             ###     ### 
-       0| ###             ### ### ### 
-      -1| ### ###         ### ### ### 
-      -2| ### ### ###     ### ### ### 
-      -3| ### ### ### ### ### ### ### 
-        ------------------------------
+      12| ###                     
+        | ###                     
+        | ###                     
+        | ###                     
+        | ###                     
+        | ###                     
+       6| ###                 ### 
+        | ###                 ### 
+        | ###                 ### 
+       3| ###         ### ### ### 
+       2| ### ###     ### ### ### 
+       1| ### ### ### ### ### ### 
+        --------------------------
     EXPECTED
     assert_equal with_colors_result, <<~EXPECTED
       \e[1mWith colors\e[22m
       Testing
+      
+      \e[36m1\e[0m\e[36m2\e[0m| \e[34m###\e[0m                     
+        | \e[34m###\e[0m                     
+        | \e[34m###\e[0m                     
+        | \e[34m###\e[0m                     
+        | \e[34m###\e[0m                     
+        | \e[34m###\e[0m                     
+       \e[36m6\e[0m| \e[34m###\e[0m                 \e[34m###\e[0m 
+        | \e[34m###\e[0m                 \e[34m###\e[0m 
+        | \e[34m###\e[0m                 \e[34m###\e[0m 
+       \e[36m3\e[0m| \e[34m###\e[0m         \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
+       \e[36m2\e[0m| \e[34m###\e[0m \e[34m###\e[0m     \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
+       \e[36m1\e[0m| \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
+        --------------------------
+    EXPECTED
+    # [116, 114, 115, 102, 104, 96, 103, 113, 119, 94]
+    assert_equal nearby_numbers_result, <<~EXPECTED
+      Nearby numbers
+      Numbers between 90 and 120
 
-       \e[36m3\e[0m| \e[34m###\e[0m                         
-       \e[36m2\e[0m| \e[34m###\e[0m                     \e[34m###\e[0m 
-       \e[36m1\e[0m| \e[34m###\e[0m             \e[34m###\e[0m     \e[34m###\e[0m 
-       \e[36m0\e[0m| \e[34m###\e[0m             \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
-      \e[36m-1\e[0m| \e[34m###\e[0m \e[34m###\e[0m         \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
-      \e[36m-2\e[0m| \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m     \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
-      \e[36m-3\e[0m| \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m \e[34m###\e[0m 
-        ------------------------------
+      119|                                 ###     
+      113| ### ### ###                 ### ###     
+      103| ### ### ### ### ###     ### ### ###     
+       94| ### ### ### ### ### ### ### ### ### ### 
+         ------------------------------------------
     EXPECTED
   end
 end

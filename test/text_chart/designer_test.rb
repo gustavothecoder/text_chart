@@ -4,7 +4,7 @@ require "test_helper"
 
 class TextChart::DesignerTest < Test::Unit::TestCase
   test "#draw_header" do
-    text_chart = TextChart.new("This is a nice title", "This is a nice subtitle", [])
+    text_chart = TextChart.new("This is a nice title", "This is a nice subtitle", [1])
 
     result = text_chart.designer.draw_header.join
 
@@ -18,20 +18,11 @@ class TextChart::DesignerTest < Test::Unit::TestCase
   end
 
   test "#draw_axis" do
-    no_sample_designer = TextChart.new("No sample", "Testing", []).designer
     small_sample_designer = TextChart.new("Small sample", "Testing", [*1..10]).designer
     with_gaps_designer = TextChart.new("With gaps", "Testing", [1, 5, 10]).designer
-    with_negative_number = TextChart.new("With negative number", "Testing", [*-3..3]).designer
 
-    no_sample_result = no_sample_designer.draw_axis.join
     small_sample_result = small_sample_designer.draw_axis.join
     with_gaps_result = with_gaps_designer.draw_axis.join
-    with_negative_number_result = with_negative_number.draw_axis.join
-
-    assert_equal no_sample_result, <<~END
-      0|     
-       ------
-    END
 
     assert_equal small_sample_result, <<~END
       10|                                         
@@ -46,30 +37,18 @@ class TextChart::DesignerTest < Test::Unit::TestCase
        1|                                         
         ------------------------------------------
     END
-
     assert_equal with_gaps_result, <<~END
       10|             
-       9|             
-       8|             
-       7|             
-       6|             
+        |             
+        |             
+        |             
+        |             
        5|             
-       4|             
-       3|             
-       2|             
+        |             
+        |             
+        |             
        1|             
         --------------
-    END
-
-    assert_equal with_negative_number_result, <<~END
-       3|                             
-       2|                             
-       1|                             
-       0|                             
-      -1|                             
-      -2|                             
-      -3|                             
-        ------------------------------
     END
   end
 
@@ -78,21 +57,13 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     random_order_designer = TextChart.new(
       "Random order", "Testing", [*1..10].shuffle(random: Random.new(1))
     ).designer
-    with_zero_designer = TextChart.new(
-      "With zero", "Testing", [*0..5].shuffle(random: Random.new(1))
-    ).designer
     gaps = TextChart.new(
       "Duplicated and gaps", "Testing", [*1..3, 6, 12].shuffle(random: Random.new(1))
-    ).designer
-    negative = TextChart.new(
-      "Negative", "Testing", [*-3..3].shuffle(random: Random.new(1))
     ).designer
 
     sorted_result = sorted_designer.draw_bars.join
     random_order_result = random_order_designer.draw_bars.join
-    with_zero_result = with_zero_designer.draw_bars.join
     gaps_result = gaps.draw_bars.join
-    negative_result = negative.draw_bars.join
 
     assert_equal sorted_result, <<-END
                                         ### 
@@ -107,7 +78,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     ### ### ### ### ### ### ### ### ### ### 
                                             
     END
-
     assert_equal random_order_result, <<-END
         ###                                 
         ###                         ###     
@@ -121,17 +91,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     ### ### ### ### ### ### ### ### ### ### 
                                             
     END
-
-    assert_equal with_zero_result, <<-END
-                       ### 
-           ###         ### 
-           ###     ### ### 
-   ###     ###     ### ### 
-   ### ### ###     ### ### 
-   ### ### ### ### ### ### 
-                           
-    END
-
     assert_equal gaps_result, <<-END
             ###         
             ###         
@@ -146,17 +105,6 @@ class TextChart::DesignerTest < Test::Unit::TestCase
     ### ### ###     ### 
     ### ### ### ### ### 
                         
-    END
-
-    assert_equal negative_result, <<-END
-    ###                         
-    ###                     ### 
-    ###             ###     ### 
-    ###             ### ### ### 
-    ### ###         ### ### ### 
-    ### ### ###     ### ### ### 
-    ### ### ### ### ### ### ### 
-                                
     END
   end
 end
