@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    text_chart (0.1.0)
+    text_chart (1.0.0)
 
 GEM
   remote: https://rubygems.org/
